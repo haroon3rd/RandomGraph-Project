@@ -14,17 +14,17 @@ public class RandomGraph {
 	public int doneVertex = 0;
 	
 	private Map<Integer, List<Integer>> adjacencyList;
-	private Map<Integer, List<Map<Integer, Double>>> edgeweight;
+	private Map<Integer, List<Map<Integer, Double>>> edgeWeight;
 	public List<EdgeObject> edges;
 	
 	public double[] edgeWeightVector;
 	public EdgeObject[] edgesVector;
 	public double[][] weightMatrix;
 	
-	public RandomGraph(int v) {
-		vertices = v;
+	public RandomGraph(int verts) {
+		vertices = verts;
 		adjacencyList = new HashMap<Integer, List<Integer>>();
-		edgeweight = new HashMap<Integer, List<Map<Integer, Double>>>();
+		edgeWeight = new HashMap<Integer, List<Map<Integer, Double>>>();
 		
 		edges = new LinkedList<EdgeObject>();
 		
@@ -32,9 +32,9 @@ public class RandomGraph {
 		edgesVector = new EdgeObject[3000000];
 		weightMatrix = new double[5001][5001];
 		
-		for (int i = 1; i <= v; i++) {
+		for (int i = 1; i <= verts; i++) {
 			adjacencyList.put(i, new LinkedList<Integer>());
-			edgeweight.put(i, new LinkedList<Map<Integer, Double>>());
+			edgeWeight.put(i, new LinkedList<Map<Integer, Double>>());
 		}
 	}
 
@@ -42,23 +42,23 @@ public class RandomGraph {
 		if (to > adjacencyList.size() || from > adjacencyList.size())
 			System.out.println("The vertices does not exist");
 
-		List<Integer> sls = adjacencyList.get(to);
-		sls.add(from);
+		List<Integer> srcList = adjacencyList.get(to);
+		srcList.add(from);
 
-		List<Integer> dls = adjacencyList.get(from);
-		dls.add(to);
+		List<Integer> destList = adjacencyList.get(from);
+		destList.add(to);
 
 		double weight = Math.random() * vertices + 1;
 
-		Map<Integer, Double> slsweight = new HashMap<Integer, Double>();
-		slsweight.put(from, weight);
-		List<Map<Integer, Double>> weightlist1 = edgeweight.get(to);
-		weightlist1.add(slsweight);
+		Map<Integer, Double> srcListweight = new HashMap<Integer, Double>();
+		srcListweight.put(from, weight);
+		List<Map<Integer, Double>> weightlist1 = edgeWeight.get(to);
+		weightlist1.add(srcListweight);
 
-		Map<Integer, Double> dlsweight = new HashMap<Integer, Double>();
-		dlsweight.put(to, weight);
-		List<Map<Integer, Double>> weightlist2 = edgeweight.get(from);
-		weightlist2.add(dlsweight);
+		Map<Integer, Double> destListweight = new HashMap<Integer, Double>();
+		destListweight.put(to, weight);
+		List<Map<Integer, Double>> weightlist2 = edgeWeight.get(from);
+		weightlist2.add(destListweight);
 		
 		if (this.getEdge(to).size() == 6)
 			this.doneVertex++;
@@ -67,10 +67,10 @@ public class RandomGraph {
 			this.doneVertex++;
 		
 		EdgeObject edgeobject = new EdgeObject();
-		edgeobject.e1 = to;
-		edgeobject.e2 = from;
+		edgeobject.edge1 = to;
+		edgeobject.edge2 = from;
 		edgeobject.edgeweight = weight;
-		//edges.add(edgeobject);
+		
 		edgesVector[totalEdges] = edgeobject;
 		edgeWeightVector[totalEdges] = weight;
 		weightMatrix[to][from] = weight;
@@ -92,17 +92,17 @@ public class RandomGraph {
 			System.out.println("The vertices does not exit");
 			return null;
 		}
-		return edgeweight.get(to);
+		return edgeWeight.get(to);
 	}
 
-	public static RandomGraph applyEdge(RandomGraph rg, int v) {
-		
+	public RandomGraph applyEdge(RandomGraph rg, int v) {
+
 		RandomGraph rgReturn = new RandomGraph(v);
-		
+
 		while(true){
-			
+
 			RandomGraph rgTest = new RandomGraph(v);
-			
+
 			int count = 0, to, from;
 			Random random = new Random();
 			while (rgTest.doneVertex < v) {
@@ -117,17 +117,17 @@ public class RandomGraph {
 					break;
 			}
 			if(rgTest.doneVertex == v){
-				
+
 				rgReturn = rgTest;
 				//System.out.println("count = "+ count); 
 				break;
 			}
 		}
-		
+
 		return rgReturn;
 	}
 
-	public static void applyEdgesNew(RandomGraph rg, int v) {
+	public void applyEdgesNew(RandomGraph rg, int v) {
 		int count = 1, to, from;
 		int k;
 		while (count <= v) {

@@ -1,18 +1,11 @@
 package ranGraph;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-
-import org.apache.log4j.Logger;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
+import java.util.Scanner;
+
+import org.apache.log4j.Logger;
 
 public class MainFunction {
 	
@@ -43,22 +36,23 @@ public class MainFunction {
 		int v = sc.nextInt();
 		try {
 			System.out.println("Random graph has " + v + " vertices");
+			logger.info("Random graph has " + v + " vertices");
 
 			//Random random = new Random();
 
 			// randomly generate G
-			RandomGraph graph1 = new RandomGraph(v);
+			RandomGraph ranGraph1 = new RandomGraph(v);
 			System.out.println("We're generating 1st graph, this may take some time, please wait...");
-			RandomGraph rg0 = graph1.applyEdge(graph1, v);
+			RandomGraph ranGraph0 = ranGraph1.applyEdge(ranGraph1, v);
 			
 			//rg0.presentGraph(rg0, v);
 			//get the source and sink term here
 			int sourcesink[][] = new int[5][2];
-			int st[][] = rg0.pickSourceSink(sourcesink, v);
+			int st[][] = ranGraph0.pickSourceSink(sourcesink, v);
 			
 			List<RandomGraph> rgList = new LinkedList<RandomGraph>();
 			for(int i = 0; i < 5; i++){ 
-				rgList.add(rg0);
+				rgList.add(ranGraph0);
 				int s = sourcesink[i][0];
 				int t = sourcesink[i][1];
 				System.out.println(s+" --> "+t);
@@ -68,21 +62,21 @@ public class MainFunction {
 			}
 			
 			//Using Dijkstra's method for 1st graph
-			List<DijkstraAlg> dij = new LinkedList<DijkstraAlg>();
+			List<DijkstraAlg> dijks = new LinkedList<DijkstraAlg>();
 			for (int i = 0; i<5;i++){
-				dij.add(new DijkstraAlg(v));
+				dijks.add(new DijkstraAlg(v));
 			}
 			
 			int[][] dad = new int[5][v];
 			for(int i = 0; i < 5; i++){ 
 				
 				long startTime = System.nanoTime();
-				dad[i] = dij.get(i).rout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], v);
+				dad[i] = dijks.get(i).rout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], v);
 				long stopTime = System.nanoTime();
 				
 				if(i == 0) System.out.println("\n");
 				System.out.println("1st Graph: Dijkstra Algorithm run "+(i+1)+" path using time  "+(stopTime-startTime)*(1e-9)
-						+"  seconds, bandwidth = "+dij.get(i).bw[sourcesink[i][1]]);
+						+"  seconds, bandwidth = "+dijks.get(i).bw[sourcesink[i][1]]);
 				
 				int j = sourcesink[i][1];
 				while(j != sourcesink[i][0]){

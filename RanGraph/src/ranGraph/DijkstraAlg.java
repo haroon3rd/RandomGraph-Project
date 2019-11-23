@@ -83,11 +83,11 @@ public class DijkstraAlg {
 				relax(max_index, i, edgeList1, edgeWeightList1);	
 			}
 		}
-		for(int i = 0;i<dad.length; i++){
-			if(dad[i] == 0){
-				int a = 3;
-			}
-		}
+//		for(int i = 0;i<dad.length; i++){
+//			if(dad[i] == 0){
+//				int a = 3;
+//			}
+//		}
 		return dad;
 	}
 
