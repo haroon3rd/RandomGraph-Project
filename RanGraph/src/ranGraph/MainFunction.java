@@ -79,8 +79,6 @@ public class MainFunction {
 				dadDijHeap[i] = dijHeapList.get(i).dijkstraHeapRout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], vert);
 				long stopTime = System.nanoTime();
 
-				//if(i == 0)	System.out.println("\n");
-
 				System.out.println("Run #"+(i+1)+ " in time "
 						+TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) +" milliseconds");
 

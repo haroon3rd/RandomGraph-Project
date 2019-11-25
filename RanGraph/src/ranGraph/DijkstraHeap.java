@@ -11,7 +11,7 @@ public class DijkstraHeap {
 
 	public char status[];
 	public int dad[];
-	public double bw[];
+	public int[] bw;
 	HeapStruct heapForFringe;
 	
 	public DijkstraHeap(int v){
@@ -22,19 +22,19 @@ public class DijkstraHeap {
 		//set 3 arrays from 1 to v(not from 0 to v-1)
 		status = new char[v+1];
 		dad = new int[v+1];
-		bw = new double[v+1];
+		bw = new int[v+1];
 		
 		//initialize the status of all vertices to be unseen
 		//dad to be 0, and bw to be infinity
 		for(int i = 1; i <= v; i++){
 			status[i] = 'u';
 			dad[i] = 0;
-			bw[i] = Double.POSITIVE_INFINITY;
+			bw[i] = (int) Double.POSITIVE_INFINITY;
 		}
 		
 		status[0] = 'p';
 		dad[0] = -1;
-		bw[0] = 0.0;
+		bw[0] = (int) 0.0;
 	}
 	
 

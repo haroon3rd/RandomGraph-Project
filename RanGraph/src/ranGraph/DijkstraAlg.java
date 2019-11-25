@@ -40,7 +40,6 @@ public class DijkstraAlg {
 		status[i] = s;
 	}
 	
-//	public void relax(int v, int i, List<Integer> list1, List<Map<Integer, Double>> list2){
 	public void relax(int v, int i, List<Integer> list1, List<Map<Integer, Integer>> list2){
 		int w = list1.get(i);
 		double weight_at_w = list2.get(i).get(w);
@@ -58,7 +57,6 @@ public class DijkstraAlg {
 		status[s] = 'i';
 		List<Integer> sourcelist1 = rg.getEdge(s);
 		List<Map<Integer, Integer>> sourceList2 = rg.getEdgeWeight(s);
-//		List<Map<Integer, Double>> sourceList2 = rg.getEdgeWeight(s);
 
 		try {
 			for(int i = 1; i<= sourceList2.size(); i++){
@@ -84,10 +82,8 @@ public class DijkstraAlg {
 
 				status[max_index] = 'i';	//put the maximum fringe into 'in-tree'
 
-				//for each [max_index, w], in which max_index is the maximum in the fringe
 				List<Integer> edgeList1 = rg.getEdge(max_index);
 				List<Map<Integer, Integer>> edgeWeightList1 = rg.getEdgeWeight(max_index);
-//				List<Map<Integer, Double>> edgeWeightList1 = rg.getEdgeWeight(max_index);
 				for(int i = 0; i < edgeList1.size(); i++){
 					relax(max_index, i, edgeList1, edgeWeightList1);	
 				}
