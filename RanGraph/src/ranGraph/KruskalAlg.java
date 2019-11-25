@@ -16,34 +16,33 @@ public class KruskalAlg {
 	//private List<EdgeObject> edgeList;
 	private int[] findArray;
 	
-	private EdgeObject[] unsortedEdgeVector;
-	private EdgeObject[] sortedEdgeVector;
+	private Edge[] unsortedEdgeVector;
+	private Edge[] sortedEdgeVector;
 	private double[][] weightMatrix;
 	
 	//using list to store the edges and weights
 	public Map<Integer, List<Integer>> mstAdjacencyList;
 	public Map<Integer, List<Map<Integer, Double>>> mstEdgeweightList;
 	public int[] dad; 
-	public List<EdgeObject>  sortedEdgeList;
+	public List<Edge>  sortedEdgeList;
 	
-	public KruskalAlg(EdgeObject[] edgesVector, int totalEdges, double[][] rgWeightMatrix, int v){
+	public KruskalAlg(Edge[] edgesVector, int totalEdges, double[][] wtMatrix, int v){
 		edgenumber = totalEdges;
 		vertexnumber = v;
 		findArray = new int[vertexnumber+1];
-		//edgeList = edgeobjects;
 		
 		dad = new int[vertexnumber+1];
-		sortedEdgeVector = new EdgeObject[edgenumber];
-		unsortedEdgeVector = new EdgeObject[edgenumber];
+		sortedEdgeVector = new Edge[edgenumber];
+		unsortedEdgeVector = new Edge[edgenumber];
 		unsortedEdgeVector = edgesVector;
 		setWeightMatrix(new double[vertexnumber+1][vertexnumber+1]);
-		setWeightMatrix(rgWeightMatrix);
+		setWeightMatrix(wtMatrix);
 		
 				
 		mstAdjacencyList = new HashMap<Integer, List<Integer>>();
 		mstEdgeweightList = new HashMap<Integer, List<Map<Integer, Double>>>();
 		
-		sortedEdgeList = new LinkedList<EdgeObject>();
+		sortedEdgeList = new LinkedList<Edge>();
 		
 		for(int i = 1; i <= v; i++){
 			mstAdjacencyList.put(i, new LinkedList<Integer>());
@@ -51,6 +50,7 @@ public class KruskalAlg {
 		}
 	}
 	
+
 	private int find(int v){
 		int w = v;
 		while(findArray[w] != 0){
@@ -103,7 +103,7 @@ public class KruskalAlg {
 
 		for(int i = 0; i < edgenumber; i++){
 			//EdgeObject e = sortedEdgeList.get(i);
-			EdgeObject e = sortedEdgeVector[i];
+			Edge e = sortedEdgeVector[i];
 			int v1 = find(e.edge1);
 			int v2 = find(e.edge2);
 			if(v1 != v2){
@@ -126,7 +126,6 @@ public class KruskalAlg {
 		Map<Integer, List<Integer>>	edgeList,	char[] color, int v){			//v is the vertex, not the total vertex number
 		
 		color[v] = 'g';
-		//List<Map<Integer, Double>> currentWeightList = edgeWeightList.get(v);
 		List<Integer> currentEdgeList = edgeList.get(v);
 		
 		if(currentEdgeList.size() > 0){

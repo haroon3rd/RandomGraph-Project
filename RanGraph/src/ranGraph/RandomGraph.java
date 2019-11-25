@@ -12,33 +12,33 @@ import org.apache.log4j.Logger;
 
 public class RandomGraph {
 	public static final Logger logger = Logger.getLogger(RandomGraph.class);
-	
-	private int vertices;
+
 	public int totalEdges = 0;
 	public int doneVertex = 0;
-	
+
 	private Map<Integer, List<Integer>> adjacencyList;
-	private Map<Integer, List<Map<Integer, Double>>> edgeWeight;
-	public List<EdgeObject> edges;
-	
-	public double[] edgeWeightVector;
-	public EdgeObject[] edgesVector;
-	public double[][] weightMatrix;
-	
+	private Map<Integer, List<Map<Integer, Integer>>> edgeWeight;
+	//	private Map<Integer, List<Map<Integer, Double>>> edgeWeight;
+	public List<Edge> edges;
+
+	public double[] edgeWtVect;
+	public Edge[] edgesVect;
+	public double[][] wtMatrix;
+
 	public RandomGraph(int verts) {
-		vertices = verts;
 		adjacencyList = new HashMap<Integer, List<Integer>>();
-		edgeWeight = new HashMap<Integer, List<Map<Integer, Double>>>();
-		
-		edges = new LinkedList<EdgeObject>();
-		
-		edgeWeightVector = new double[3000000];
-		edgesVector = new EdgeObject[3000000];
-		weightMatrix = new double[5001][5001];
-		
+		edgeWeight = new HashMap<Integer, List<Map<Integer, Integer>>>();
+		//		edgeWeight = new HashMap<Integer, List<Map<Integer, Double>>>();
+
+		edges = new LinkedList<Edge>();
+
+		edgeWtVect = new double[5000000]; //(20%*5000 = 1000) * 5000
+		edgesVect = new Edge[5000000];
+		wtMatrix = new double[5001][5001];
+
 		for (int i = 1; i <= verts; i++) {
 			adjacencyList.put(i, new LinkedList<Integer>());
-			edgeWeight.put(i, new LinkedList<Map<Integer, Double>>());
+			edgeWeight.put(i, new LinkedList<Map<Integer, Integer>>());
 		}
 	}
 
@@ -52,34 +52,36 @@ public class RandomGraph {
 		List<Integer> destList = adjacencyList.get(from);
 		destList.add(to);
 
-		double weight = Math.random() * vertices + 1;
+		// create instance of Random class 
+		Random rand = new Random();
+		int weight = rand.nextInt(100)+1; //A weight of 0 to 100 randomly chosen
 
-		Map<Integer, Double> srcListweight = new HashMap<Integer, Double>();
+		Map<Integer, Integer> srcListweight = new HashMap<Integer, Integer>();
 		srcListweight.put(from, weight);
-		List<Map<Integer, Double>> weightlist1 = edgeWeight.get(to);
+		List<Map<Integer, Integer>> weightlist1 = edgeWeight.get(to);
 		weightlist1.add(srcListweight);
 
-		Map<Integer, Double> destListweight = new HashMap<Integer, Double>();
+		Map<Integer, Integer> destListweight = new HashMap<Integer, Integer>();
 		destListweight.put(to, weight);
-		List<Map<Integer, Double>> weightlist2 = edgeWeight.get(from);
+		List<Map<Integer, Integer>> weightlist2 = edgeWeight.get(from);
 		weightlist2.add(destListweight);
-		
+
 		if (this.getEdge(to).size() == 6)
 			this.doneVertex++;
-		
+
 		if(this.getEdge(from).size() == 6)
 			this.doneVertex++;
-		
-		EdgeObject edgeobject = new EdgeObject();
+
+		Edge edgeobject = new Edge();
 		edgeobject.edge1 = to;
 		edgeobject.edge2 = from;
 		edgeobject.edgeweight = weight;
-		
-		edgesVector[totalEdges] = edgeobject;
-		edgeWeightVector[totalEdges] = weight;
-		weightMatrix[to][from] = weight;
-		weightMatrix[from][to] = weight;
-		
+
+		edgesVect[totalEdges] = edgeobject;
+		edgeWtVect[totalEdges] = weight;
+		wtMatrix[to][from] = weight;
+		wtMatrix[from][to] = weight;
+
 		totalEdges++;
 	}
 
@@ -90,104 +92,70 @@ public class RandomGraph {
 				return null;
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error" + e);
 		}
 		return adjacencyList.get(to);
 	}
 
-	public List<Map<Integer, Double>> getEdgeWeight(int to) {
+	public List<Map<Integer, Integer>> getEdgeWeight(int to) {
 		if (to > adjacencyList.size()) {
 			System.out.println("getEdgeWeight - The vertices do not exist");
 			return null;
 		}
 		return edgeWeight.get(to);
 	}
-	
-	
-	
-	public static RandomGraph applyEdge(RandomGraph rg, int v) {
+
+	//This will be called for Graph 1
+	public void applyEdges(RandomGraph ranGraph, int v, int edgePerV) {
 		int count = 1, to, from;
-		int k;
 		try {
 			while (count <= v) {
 				from = count;
-				k = count;
-				int brother = 0;
-				while (k <= v) {
-					if(brother<6) {
-						to = k++;
-						double random2 = Math.random();
-						if (random2 <= 0.0012 && to != from && !rg.getEdge(from).contains(to) &&!rg.getEdge(to).contains(from)) {
-							rg.setEdge(to, from);
-							brother++;
+				while (ranGraph.getEdge(from).size() < edgePerV) {
+					Random dest = new Random();
+					to = dest.nextInt(v)+1;
+					try {
+						if (ranGraph.getEdge(to).size()< edgePerV && to != from && !ranGraph.getEdge(from).contains(to) &&!ranGraph.getEdge(to).contains(from)) {
+							ranGraph.setEdge(to, from);
 						}
+					}catch (Exception e) {
+						logger.error("Error in applyEdges nested IF");
 					}
 				}
 				count++;
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in applyEdges while loop");
 		}
-		return rg;
+		System.out.println("Random Edge and Weight Applied to " + (count-1) + " vertices.");
 	}
-	
-	
-	
-//	public static RandomGraph applyEdge(RandomGraph rgReturn, int v) {
-//		try {
-//			while(true){
-//
-//				RandomGraph testGraph = new RandomGraph(v);
-//
-//				int count = 0, to, from;
-//				Random random = new Random();
-//				while (testGraph.doneVertex < v) {
-//					count++;
-//					from = Math.abs(random.nextInt(v)+1);
-//					to = Math.abs(random.nextInt(v)+1);
-//					if (!testGraph.getEdge(from).contains(to) && !testGraph.getEdge(to).contains(from) && to != from 
-//							&& testGraph.getEdge(to).size() < 7 && testGraph.getEdge(from).size() < 7) {
-//						testGraph.setEdge(to, from);
-//					}	
-//					if(count > 1800*testGraph.vertices) {
-//						System.out.println("Breaking Point");
-//						break;
-//					}
-//				}
-//				if(testGraph.doneVertex == v){
-//					rgReturn = testGraph;
-//					System.out.println("DoneVertex = " + testGraph.doneVertex); 
-//					break;
-//				}
-//			}
-//		}catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		return rgReturn;
-//	}
 
-	
-	
-	public void applyEdgesNew(RandomGraph rg, int v) {
+
+	//This will be called for second graph
+	public void applyEdges(RandomGraph ranGraph, int v) {
 		int count = 1, to, from;
 		int k;
 		try {
 			while (count <= v) {
 				from = count;
 				k = count;
+				int toCount = 1;
 				while (k <= v) {
 					to = k++;
 					double random2 = Math.random();
-					if (random2 <= 0.2 && to != from && !rg.getEdge(from).contains(to) &&!rg.getEdge(to).contains(from)) {
-						rg.setEdge(to, from);
+					if (random2 <= 0.2 && to != from && !ranGraph.getEdge(from).contains(to) &&!ranGraph.getEdge(to).contains(from)) {
+						ranGraph.setEdge(to, from);
+						toCount++;
+						if(toCount>0.2*v)
+							break;
 					}
 				}
 				count++;
 			}
 		}catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Error in applyEdges while loop Dense Graph");
 		}
+		System.out.println("Random Edge and Weight Applied to " + (count-1) + " vertices.");
 	}
 
 
@@ -206,34 +174,4 @@ public class RandomGraph {
 		}
 		return sourcesink;
 	}
-	
-	/*public static void presentGraph(RandomGraph rg, int v) {
-	System.out.println("The Adjacency List Representation is:");
-	for (int i = 1; i <= v; i++) {
-		List<Integer> edgeList1 = rg.getEdge(i);
-		System.out.print(i + " -> ");
-		List<Map<Integer, Double>> edgeList2 = rg.getEdgeWeight(i);
-		if (edgeList2.size() == 0)
-			System.out.print("Null");
-		else {
-			for (int j = 1;; j++) {
-				if (j != edgeList2.size())
-					System.out.print("( "
-							+ edgeList1.get(j - 1)
-							+ " , "
-							+ edgeList2.get(j - 1).get(
-									edgeList1.get(j - 1)) + " ) -> ");
-				else {
-					System.out.print("( "
-							+ edgeList1.get(j - 1)
-							+ " , "
-							+ edgeList2.get(j - 1).get(
-									edgeList1.get(j - 1)) + " )");
-					break;
-				}
-			}
-		}
-		System.out.println();
-	}
-}*/
 }

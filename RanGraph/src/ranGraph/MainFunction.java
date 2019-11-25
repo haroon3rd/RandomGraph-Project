@@ -26,12 +26,17 @@ public class MainFunction {
 	//Method for Dijsktra algorithm call
 	public static void runDijkstra(List<RandomGraph> rgList, int sourcesink[][], int vert, int gNo) {
 		List<DijkstraAlg> dijks = new LinkedList<DijkstraAlg>();
-		for (int i = 0; i<5;i++){
-			dijks.add(new DijkstraAlg(vert));
+		try {
+			for (int i = 0; i<5;i++){
+				dijks.add(new DijkstraAlg(vert));
+			}
+		} catch (Exception e) {
+			logger.error("Error in runDijkstra for Loop" + e);
 		}
 
 		int[][] dad = new int[5][vert];
 		System.out.println("\nGraph #" + gNo + " Algorithm : Dijkstra");
+		try {
 		for(int i = 0; i < 5; i++){ 
 
 			long startTime = System.nanoTime();
@@ -49,68 +54,88 @@ public class MainFunction {
 			}
 			System.out.println("\nPath-Bandwidth = "+dijks.get(i).bw[sourcesink[i][1]]);
 		}
+		} catch (Exception e) {
+			logger.error("Error in runDijkstra for Loop 2" + e);
+		}
 
 	}
 	
 	public static void runDijkstraHeap(List<RandomGraph> rgList, int sourcesink[][], int vert, int gNo) {
 		List<DijkstraHeap> dijHeapList = new LinkedList<DijkstraHeap>();
-		for (int i = 0; i<5;i++){
-			dijHeapList.add(new DijkstraHeap(vert));
+		try {
+			for (int i = 0; i<5;i++){
+				dijHeapList.add(new DijkstraHeap(vert));
+			}
+		} catch (Exception e) {
+			logger.error("Error in runDijkstraHeap for Loop" + e);
 		}
 
 		int[][] dadDijHeap = new int[5][vert];
 		System.out.println("\nGraph #" + gNo + " Algorithm : Dijkstra-Heap");
-		for(int i = 0; i < 5; i++){ 
+		try {
+			for(int i = 0; i < 5; i++){ 
 
-			long startTime = System.nanoTime();
-			dadDijHeap[i] = dijHeapList.get(i).dijkstraHeapRout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], vert);
-			long stopTime = System.nanoTime();
+				long startTime = System.nanoTime();
+				dadDijHeap[i] = dijHeapList.get(i).dijkstraHeapRout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], vert);
+				long stopTime = System.nanoTime();
 
-			//if(i == 0)	System.out.println("\n");
+				//if(i == 0)	System.out.println("\n");
 
-			System.out.println("Run #"+(i+1)+ " in time "
-					+TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) +" milliseconds");
+				System.out.println("Run #"+(i+1)+ " in time "
+						+TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) +" milliseconds");
 
-			int j = sourcesink[i][1];
-			System.out.print("Path = " + j);
-			while(j != sourcesink[i][0]){
-				System.out.print("-->" + dadDijHeap[i][j]);
-				j = dadDijHeap[i][j];
+				int j = sourcesink[i][1];
+				System.out.print("Path = " + j);
+				while(j != sourcesink[i][0]){
+					System.out.print("-->" + dadDijHeap[i][j]);
+					j = dadDijHeap[i][j];
+				}
+				System.out.println("\nPath-Bandwidth = "+dijHeapList.get(i).heapForFringe.vertValues[sourcesink[i][1]]);
 			}
-			System.out.println("\nPath-Bandwidth = "+dijHeapList.get(i).heapForFringe.vertValues[sourcesink[i][1]]);
+		} catch (Exception e) {
+			logger.error("Error in runDijkstraHeap for Loop2" + e);
 		}
 	}
 	
 	
 	public static void runKruskal(List<RandomGraph> rgList, int sourcesink[][], int vert, int gNo) {
 		List<KruskalAlg> kruskalList = new LinkedList<KruskalAlg>();
-		for(int i = 0; i < 5; i++){
-			kruskalList.add(new KruskalAlg(rgList.get(i).edgesVector, rgList.get(i).totalEdges, rgList.get(i).weightMatrix, vert));
+		try{
+			for(int i = 0; i < 5; i++){
+				kruskalList.add(new KruskalAlg(rgList.get(i).edgesVect, rgList.get(i).totalEdges, rgList.get(i).wtMatrix, vert));
+			}
+		} catch (Exception e) {
+			logger.error("Error in runKruskal for Loop" + e);
 		}
+		
 
 		int[][] kruskalDad = new int[5][vert];
 		System.out.println("\nGraph #" + gNo + " Algorithm : Kruskal");
-		for(int i = 0; i < 5; i++){
+		try {
+			for(int i = 0; i < 5; i++){
 
-			long startTime = System.nanoTime();
-			kruskalDad[i] = kruskalList.get(i).rout(rgList.get(i).edgeWeightVector, sourcesink[i][0], sourcesink[i][1]);;
-			long stopTime = System.nanoTime();
+				long startTime = System.nanoTime();
+				kruskalDad[i] = kruskalList.get(i).rout(rgList.get(i).edgeWtVect, sourcesink[i][0], sourcesink[i][1]);;
+				long stopTime = System.nanoTime();
 
-			//if(i == 0) System.out.println("\n");
-			System.out.println("Run #"+(i+1)+ " , in time "
-					+ TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) + " milliseconds.");
+				//if(i == 0) System.out.println("\n");
+				System.out.println("Run #"+(i+1)+ " , in time "
+						+ TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) + " milliseconds.");
 
-			int j = sourcesink[i][1];
-			double bandWidth = rgList.get(i).weightMatrix[j][kruskalDad[i][j]];
-			System.out.print("Path = " + j);
-			while(j != sourcesink[i][0]){
-				System.out.print("-->" + kruskalDad[i][j]);
-				if(bandWidth > rgList.get(i).weightMatrix[j][kruskalDad[i][j]]){
-					bandWidth = rgList.get(i).weightMatrix[j][kruskalDad[i][j]];
+				int j = sourcesink[i][1];
+				double bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
+				System.out.print("Path = " + j);
+				while(j != sourcesink[i][0]){
+					System.out.print("-->" + kruskalDad[i][j]);
+					if(bandWidth > rgList.get(i).wtMatrix[j][kruskalDad[i][j]]){
+						bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
+					}
+					j = kruskalDad[i][j];
 				}
-				j = kruskalDad[i][j];
+				System.out.println("\nPath-BandWidth = "+bandWidth);
 			}
-			System.out.println("\nPath-BandWidth = "+bandWidth);
+		} catch (Exception e) {
+			logger.error("Error in runKruskal for Loop 2" + e);
 		}
 
 	}
@@ -133,7 +158,6 @@ public class MainFunction {
 			}
 			sc.close();
 			System.out.println("You have chosen " + vert + " vertices for random graph generation.");
-			logger.info("Random graph has " + vert + " vertices");
 		} catch (Exception e) {
 			logger.error("Error reading user input", e);
 		}
@@ -146,21 +170,26 @@ public class MainFunction {
 		RandomGraph firstRanGraph = new RandomGraph(vert);
 		
 		//Add random edges to first random graph.
-		firstRanGraph = RandomGraph.applyEdge(firstRanGraph, vert);
+		firstRanGraph.applyEdges(firstRanGraph, vert, 6);
 
-		//get the source and sink term for five runs.
+		//get the source and sink for five runs.
 		int sourcesink[][] = new int[5][2];
 		sourcesink = firstRanGraph.pickSourceSink(sourcesink, vert);
-
+		
+		System.out.println("\nGenerating five random paths for algorithm run.\n");
 		List<RandomGraph> rgList = new LinkedList<RandomGraph>();
-		for(int i = 0; i < 5; i++){ 
-			rgList.add(firstRanGraph);
-			int s = sourcesink[i][0];
-			int t = sourcesink[i][1];
-			System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
-			ProjectUtil projectutil = new ProjectUtil();
-			RandomGraph rgTemp = projectutil.addPath(rgList.get(i), s, t, vert);
-			rgList.set(i, rgTemp);
+		try {
+			for(int i = 0; i < 5; i++){ 
+				rgList.add(firstRanGraph);
+				int s = sourcesink[i][0];
+				int t = sourcesink[i][1];
+				System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
+				ProjectUtil projectutil = new ProjectUtil();
+				RandomGraph rgTemp = projectutil.addPath(rgList.get(i), s, t, vert);
+				rgList.set(i, rgTemp);
+			}
+		} catch (Exception e) {
+			logger.error("Error in main for Loop" + e);
 		}
 		
 		long partEndTime = System.nanoTime();
@@ -173,18 +202,24 @@ public class MainFunction {
 		runDijkstraHeap(rgList,sourcesink, vert, 1);
 
 		//using Kruskal's method
-		runDijkstraHeap(rgList,sourcesink, vert, 1);
+		runKruskal(rgList,sourcesink, vert, 1);
 
-		System.out.println("\nRouting for firth graph is complete.\n");
+		System.out.println("\nRouting for first graph is complete.\n");
 		
 		System.out.println("Generating SECOND RANDOM GRAPH with 20% adjacent vertices.....");		
 		partStartTime = System.nanoTime();
 		RandomGraph secondGraph = new RandomGraph(vert);
-		secondGraph.applyEdgesNew(secondGraph, vert);
+		
+		//Add random edges to second random graph.
+		secondGraph.applyEdges(secondGraph, vert);
+		
+		//get the source and sink for five runs.
+		int sourcesink2[][] = new int[5][2];
+		sourcesink2 = secondGraph.pickSourceSink(sourcesink, vert);
 
-		//get the same source and sink term for five runs.
-		int sourcesink2[][] = sourcesink;
+		System.out.println("\nGenerating five random paths for algorithm run.\n");
 		List<RandomGraph> rgList2 = new LinkedList<RandomGraph>();
+		try {
 		for(int i = 0; i < 5; i++){ 
 			rgList2.add(secondGraph);
 			int s = sourcesink2[i][0];
@@ -193,6 +228,9 @@ public class MainFunction {
 			ProjectUtil projectutil2 = new ProjectUtil();
 			RandomGraph rgTemp2 = projectutil2.addPath(rgList2.get(i), s, t, vert);
 			rgList2.set(i, rgTemp2);
+		}
+		} catch (Exception e) {
+			logger.error("Error in main for Loop 2" + e);
 		}
 
 		partEndTime = System.nanoTime();
@@ -205,11 +243,11 @@ public class MainFunction {
 		runDijkstraHeap(rgList2,sourcesink2, vert, 2);
 
 		//using Kruskal's method for 2nd graph
-		runDijkstraHeap(rgList2,sourcesink2, vert, 2);
+		runKruskal(rgList2,sourcesink2, vert, 2);
 
 		long algorithmEndTime = System.nanoTime();
 		
-		System.out.println("\n\nEnd of Program in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 10 successfull runs.");
+		System.out.println("\n\nEnd of Program in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 30 successfull runs.");
 	}
 
 }
