@@ -18,7 +18,7 @@ public class KruskalAlg {
 	
 	private Edge[] unsortedEdgeVector;
 	private Edge[] sortedEdgeVector;
-	private double[][] weightMatrix;
+	private int[][] weightMatrix;
 	
 	//using list to store the edges and weights
 	public Map<Integer, List<Integer>> mstAdjacencyList;
@@ -26,7 +26,7 @@ public class KruskalAlg {
 	public int[] dad; 
 	public List<Edge>  sortedEdgeList;
 	
-	public KruskalAlg(Edge[] edgesVector, int totalEdges, double[][] wtMatrix, int v){
+	public KruskalAlg(Edge[] edgesVector, int totalEdges, int[][] wtMatrix, int v){
 		edgenumber = totalEdges;
 		vertexnumber = v;
 		findArray = new int[vertexnumber+1];
@@ -35,7 +35,7 @@ public class KruskalAlg {
 		sortedEdgeVector = new Edge[edgenumber];
 		unsortedEdgeVector = new Edge[edgenumber];
 		unsortedEdgeVector = edgesVector;
-		setWeightMatrix(new double[vertexnumber+1][vertexnumber+1]);
+		setWeightMatrix(new int[vertexnumber+1][vertexnumber+1]);
 		setWeightMatrix(wtMatrix);
 		
 				
@@ -84,10 +84,10 @@ public class KruskalAlg {
 		
 	}
 	
-	public int[] rout(double[] edgeWeightVector, int s, int t){
+	public int[] rout(int[] edgeWtVect, int s, int t){
 		
 		HeapStruct heapSortEdge = new HeapStruct(edgenumber);
-		heapSortEdge.vertValues = edgeWeightVector;
+		heapSortEdge.vertValues = edgeWtVect;
 		heapSortEdge.maxHeap[0] = 0;
 		
 		for(int i = 1; i < edgenumber; i++){
@@ -140,11 +140,11 @@ public class KruskalAlg {
 		color[v] = 'b';
 	}
 
-	public double[][] getWeightMatrix() {
+	public int[][] getWeightMatrix() {
 		return weightMatrix;
 	}
 
-	public void setWeightMatrix(double[][] weightMatrix) {
-		this.weightMatrix = weightMatrix;
+	public void setWeightMatrix(int[][] wtMatrix) {
+		this.weightMatrix = wtMatrix;
 	}
 }

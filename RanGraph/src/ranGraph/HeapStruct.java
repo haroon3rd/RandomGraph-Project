@@ -8,14 +8,14 @@ public class HeapStruct {
 	private int n;
 	public int size;
 	public int maxHeap[];
-	public double[] vertValues;
+	public int[] vertValues;
 	public int index[];
 	
 	public HeapStruct(int s) {
 		n = s;
 		size = 0;
 		maxHeap = new int[n];
-		vertValues = new double[n];
+		vertValues = new int[n];
 		index = new int[n];
 	}
 

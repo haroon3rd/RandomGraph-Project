@@ -9,14 +9,14 @@ public class DijkstraAlg {
 
 	public Character status[];
 	public int dad[];
-	public double bw[];
+	public int bw[];
 	
 	public DijkstraAlg(int v) {
 		
 		//set status from 1 to v(not 0 to v-1)
 		status = new Character[v+1];
 		dad = new int[v+1];
-		bw = new double[v+1];
+		bw = new int[v+1];
 		/*
 		 * initialize the status of all vertices to be unseen // dad to be 0, and bw
 		 * to be infinity
@@ -25,14 +25,14 @@ public class DijkstraAlg {
 			for (int i = 1; i <= v; i++) {
 				status[i] = 'u';
 				dad[i] = 0;
-				bw[i] = Double.POSITIVE_INFINITY;;
+				bw[i] = (int) Double.POSITIVE_INFINITY;;
 			}
 		} catch (Exception e) {
 			logger.error("Error in DijkstraAlg for Loop" + e);
 		}
 		status[0] = 'p';
 		dad[0] = -1;
-		bw[0] = 0.0;
+		bw[0] = 0;
 	}
 	
 	
@@ -47,10 +47,10 @@ public class DijkstraAlg {
 		if(status[w] == 'u'){
 			status[w] = 'f';
 			dad[w] = v;
-			bw[w] = Math.min(bw[v], weight_at_w);
+			bw[w] = (int) Math.min(bw[v], weight_at_w);
 		}else if(status[w] == 'f' && bw[w] < Math.min(bw[v], weight_at_w)){
 			dad[w] = v;
-			bw[w] = Math.min(bw[v], weight_at_w);
+			bw[w] = (int) Math.min(bw[v], weight_at_w);
 		}
 	}
 	

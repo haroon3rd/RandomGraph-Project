@@ -46,14 +46,14 @@ public class DijkstraHeap {
 		if(status[w] == 'u'){
 			status[w] = 'f';
 			dad[w] = v;
-			heapForFringe.vertValues[w] = Math.min(heapForFringe.vertValues[v], weight_on_w);
+			heapForFringe.vertValues[w] = (int) Math.min(heapForFringe.vertValues[v], weight_on_w);
 			heapForFringe.Insert(w);
 		}else if(status[w] == 'f' && heapForFringe.vertValues[w] < Math.min(heapForFringe.vertValues[v], weight_on_w)){
 			
 			int wrongPos = heapForFringe.index[w];
 			heapForFringe.Delete(wrongPos);
 			dad[w] = v;
-			heapForFringe.vertValues[w] = Math.min(heapForFringe.vertValues[v], weight_on_w);
+			heapForFringe.vertValues[w] = (int) Math.min(heapForFringe.vertValues[v], weight_on_w);
 			heapForFringe.Insert(w);
 		}
 	}

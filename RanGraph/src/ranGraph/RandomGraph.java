@@ -21,9 +21,9 @@ public class RandomGraph {
 	//	private Map<Integer, List<Map<Integer, Double>>> edgeWeight;
 	public List<Edge> edges;
 
-	public double[] edgeWtVect;
+	public int[] edgeWtVect;
 	public Edge[] edgesVect;
-	public double[][] wtMatrix;
+	public int[][] wtMatrix;
 
 	public RandomGraph(int verts) {
 		adjacencyList = new HashMap<Integer, List<Integer>>();
@@ -32,9 +32,9 @@ public class RandomGraph {
 
 		edges = new LinkedList<Edge>();
 
-		edgeWtVect = new double[5000000]; //(20%*5000 = 1000) * 5000
+		edgeWtVect = new int[5000000]; //(20%*5000 = 1000) * 5000
 		edgesVect = new Edge[5000000];
-		wtMatrix = new double[5001][5001];
+		wtMatrix = new int[5001][5001];
 
 		for (int i = 1; i <= verts; i++) {
 			adjacencyList.put(i, new LinkedList<Integer>());
@@ -107,16 +107,21 @@ public class RandomGraph {
 
 	//This will be called for Graph 1
 	public void applyEdges(RandomGraph ranGraph, int v, int edgePerV) {
+		logger.info("I am here.....");
 		int count = 1, to, from;
 		try {
 			while (count <= v) {
+				logger.info("I am here..... in while " + count);
 				from = count;
+				int toCount = 1;
 				while (ranGraph.getEdge(from).size() < edgePerV) {
 					Random dest = new Random();
 					to = dest.nextInt(v)+1;
 					try {
-						if (ranGraph.getEdge(to).size()< edgePerV && to != from && !ranGraph.getEdge(from).contains(to) &&!ranGraph.getEdge(to).contains(from)) {
+						if (to != from && !ranGraph.getEdge(from).contains(to) &&!ranGraph.getEdge(to).contains(from)) {
 							ranGraph.setEdge(to, from);
+							if(toCount>6)
+								break;
 						}
 					}catch (Exception e) {
 						logger.error("Error in applyEdges nested IF");

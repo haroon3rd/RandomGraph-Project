@@ -123,7 +123,7 @@ public class MainFunction {
 						+ TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) + " milliseconds.");
 
 				int j = sourcesink[i][1];
-				double bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
+				int bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
 				System.out.print("Path = " + j);
 				while(j != sourcesink[i][0]){
 					System.out.print("-->" + kruskalDad[i][j]);
@@ -247,7 +247,7 @@ public class MainFunction {
 
 		long algorithmEndTime = System.nanoTime();
 		
-		System.out.println("\n\nEnd of Program in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 30 successfull runs.");
+		System.out.println("\n\nEnd of algorithm runs in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 30 successfull runs.");
 	}
 
 }
