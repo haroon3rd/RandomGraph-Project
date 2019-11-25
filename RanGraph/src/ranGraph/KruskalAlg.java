@@ -87,7 +87,7 @@ public class KruskalAlg {
 	public int[] rout(double[] edgeWeightVector, int s, int t){
 		
 		HeapStruct heapSortEdge = new HeapStruct(edgenumber);
-		heapSortEdge.D = edgeWeightVector;
+		heapSortEdge.vertValues = edgeWeightVector;
 		heapSortEdge.maxHeap[0] = 0;
 		
 		for(int i = 1; i < edgenumber; i++){

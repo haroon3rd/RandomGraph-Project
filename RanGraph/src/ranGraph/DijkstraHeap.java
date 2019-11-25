@@ -45,9 +45,9 @@ public class DijkstraHeap {
 		if(status[w] == 'u'){
 			status[w] = 'f';
 			dad[w] = v;
-			heapForFringe.D[w] = Math.min(heapForFringe.D[v], weight_on_w);
+			heapForFringe.vertValues[w] = Math.min(heapForFringe.vertValues[v], weight_on_w);
 			heapForFringe.Insert(w);
-		}else if(status[w] == 'f' && heapForFringe.D[w] < Math.min(heapForFringe.D[v], weight_on_w)){
+		}else if(status[w] == 'f' && heapForFringe.vertValues[w] < Math.min(heapForFringe.vertValues[v], weight_on_w)){
 			
 			int bugPos = heapForFringe.index[w];
 			
@@ -60,7 +60,7 @@ public class DijkstraHeap {
 			//int bugPos =Arrays.asList(heapForFringe.maxHeap).indexOf(w);
 			heapForFringe.Delete(bugPos);
 			dad[w] = v;
-			heapForFringe.D[w] = Math.min(heapForFringe.D[v], weight_on_w);
+			heapForFringe.vertValues[w] = Math.min(heapForFringe.vertValues[v], weight_on_w);
 			heapForFringe.Insert(w);
 		}
 	}
@@ -77,14 +77,14 @@ public class DijkstraHeap {
 		int w0 = sourceList1.get(0);
 		status[w0] = 'f';
 		dad[w0] = s;
-		heapForFringe.D[w0] = sourceList2.get(0).get(w0);
+		heapForFringe.vertValues[w0] = sourceList2.get(0).get(w0);
 		heapForFringe.maxHeap[0] = w0;
 		
 		for(int i = 1; i<sourceList2.size();i++){
 			int w = sourceList1.get(i);
 			status[w] = 'f';
 			dad[w] = s;
-			heapForFringe.D[w] = sourceList2.get(i).get(w);
+			heapForFringe.vertValues[w] = sourceList2.get(i).get(w);
 			heapForFringe.Insert(w);
 		}
 		

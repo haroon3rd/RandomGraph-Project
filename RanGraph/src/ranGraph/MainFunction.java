@@ -74,7 +74,7 @@ public class MainFunction {
 		}
 		
 		long partEndTime = System.nanoTime();
-		System.out.println("\nFirst graph generated in time " + TimeUnit.SECONDS.convert((partEndTime-partStartTime),TimeUnit.NANOSECONDS) +" seconds.");
+		System.out.println("\nFirst graph generated in time " + TimeUnit.MILLISECONDS.convert((partEndTime-partStartTime),TimeUnit.NANOSECONDS) +" milliseconds.");
 		
 		//Using Dijkstra's method for 1st graph
 		List<DijkstraAlg> dijks = new LinkedList<DijkstraAlg>();
@@ -128,7 +128,7 @@ public class MainFunction {
 				System.out.print("-->" + dadDijHeap[i][j]);
 				j = dadDijHeap[i][j];
 			}
-			System.out.println("\nPath-Bandwidth = "+dijHeapList.get(i).heapForFringe.D[sourcesink[i][1]]);
+			System.out.println("\nPath-Bandwidth = "+dijHeapList.get(i).heapForFringe.vertValues[sourcesink[i][1]]);
 		}
 
 
@@ -166,7 +166,7 @@ public class MainFunction {
 
 		System.out.println("\nRouting for firth graph is complete.\n");
 		
-		System.out.println("Generating first random graph, this may take a while...");		
+		System.out.println("Generating second random graph, this may take a while...");		
 		partStartTime = System.nanoTime();
 		RandomGraph secondGraph = new RandomGraph(vert);
 		secondGraph.applyEdgesNew(secondGraph, vert);
@@ -185,7 +185,7 @@ public class MainFunction {
 		}
 
 		partEndTime = System.nanoTime();
-		System.out.println("Second graph generated in time " + TimeUnit.SECONDS.convert((partEndTime-partStartTime),TimeUnit.NANOSECONDS) +" seconds.");
+		System.out.println("\nSecond graph generated in time " + TimeUnit.MILLISECONDS.convert((partEndTime-partStartTime),TimeUnit.NANOSECONDS) +" milliseconds.");
 		
 		//Using Dijkstra's method for 2nd graph
 		List<DijkstraAlg> dij2 = new LinkedList<DijkstraAlg>();
@@ -235,7 +235,7 @@ public class MainFunction {
 			if(i == 0)	System.out.println("\n");
 
 			System.out.println("2nd Graph: Dijkstra-Heap Algorithm run "+(i+1)+" path using time "+(stopTime-startTime)*(1e-9)
-					+"  seconds, bandwidth = "+dijHeapList2.get(i).heapForFringe.D[sourcesink2[i][1]]);
+					+"  seconds, bandwidth = "+dijHeapList2.get(i).heapForFringe.vertValues[sourcesink2[i][1]]);
 
 			int j = sourcesink2[i][1];
 			while(j != sourcesink2[i][0]){
@@ -269,32 +269,6 @@ public class MainFunction {
 			System.out.println("BandWidth of this path is "+bandWidth);
 		}
 
-
-		//			//Using DijkstraHeap method
-		//			List<DijkstraHeap> dijHeapList2 = new LinkedList<DijkstraHeap>();
-		//			for (int i = 0; i<5;i++){
-		//				dijHeapList2.add(new DijkstraHeap(vert));
-		//			}
-		//			
-		//			int[][] dadDijHeap2 = new int[5][vert];
-		//			for(int i = 0; i < 5; i++){ 
-		//				
-		//				long startTime = System.nanoTime();
-		//				dadDijHeap2[i] = dijHeapList2.get(i).dijkstraHeapRout(rgList2.get(i), sourcesink2[i][0], sourcesink2[i][1], vert);
-		//				long stopTime = System.nanoTime();
-		//				
-		//				if(i == 0)	System.out.println("\n");
-		//				
-		//				System.out.println("2nd Graph: Dijkstra-Heap Algorithm run "+(i+1)+" path using time "+(stopTime-startTime)*(1e-9)
-		//						+"  seconds, bandwidth = "+dijHeapList2.get(i).heapForFringe.D[sourcesink2[i][1]]);
-		//				
-		//				int j = sourcesink2[i][1];
-		//				while(j != sourcesink2[i][0]){
-		//					System.out.print("  "+j + " -> " + dadDijHeap2[i][j]);
-		//					j = dadDijHeap2[i][j];
-		//				}
-		//				System.out.println();
-		//			}
 		long algorithmEndTime = System.nanoTime();
 		
 		System.out.println("End of Program in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 10 successfull runs.");
