@@ -8,6 +8,8 @@ import java.util.Random;
 
 import org.apache.log4j.Logger;
 
+
+
 public class RandomGraph {
 	public static final Logger logger = Logger.getLogger(RandomGraph.class);
 	
@@ -42,7 +44,7 @@ public class RandomGraph {
 
 	public void setEdge(int to, int from) {
 		if (to > adjacencyList.size() || from > adjacencyList.size())
-			System.out.println("The vertices does not exist");
+			System.out.println("The vertices do not exist");
 
 		List<Integer> srcList = adjacencyList.get(to);
 		srcList.add(from);
@@ -82,99 +84,112 @@ public class RandomGraph {
 	}
 
 	public List<Integer> getEdge(int to) {
-		if (to > adjacencyList.size()) {
-			System.out.println("The vertices does not exit");
-			return null;
+		try{
+			if (adjacencyList==null && (to > adjacencyList.size())) {
+				System.out.println("getEdge - The vertices do not exist");
+				return null;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 		return adjacencyList.get(to);
 	}
 
 	public List<Map<Integer, Double>> getEdgeWeight(int to) {
 		if (to > adjacencyList.size()) {
-			System.out.println("The vertices does not exit");
+			System.out.println("getEdgeWeight - The vertices do not exist");
 			return null;
 		}
 		return edgeWeight.get(to);
 	}
-
-	public RandomGraph applyEdge(RandomGraph rg, int v) {
-
-		RandomGraph rGraph = new RandomGraph(v);
-
-		while(true){
-			RandomGraph testGraph = new RandomGraph(v);
-
-			int count = 0, to, from;
-			Random random = new Random();
-			while (testGraph.doneVertex < v) {
+	
+	
+	
+	public static RandomGraph applyEdge(RandomGraph rg, int v) {
+		int count = 1, to, from;
+		int k;
+		try {
+			while (count <= v) {
+				from = count;
+				k = count;
+				int brother = 0;
+				while (k <= v) {
+					if(brother<6) {
+						to = k++;
+						double random2 = Math.random();
+						if (random2 <= 0.0012 && to != from && !rg.getEdge(from).contains(to) &&!rg.getEdge(to).contains(from)) {
+							rg.setEdge(to, from);
+							brother++;
+						}
+					}
+				}
 				count++;
-				from = Math.abs(random.nextInt(v)+1);
-				to = Math.abs(random.nextInt(v)+1);
-				if (!testGraph.getEdge(from).contains(to) && !testGraph.getEdge(to).contains(from) && to != from 
-						&& testGraph.getEdge(to).size() < 6 && testGraph.getEdge(from).size() < 6) {
-					testGraph.setEdge(to, from);
-				}	
-				if(count > 1800*testGraph.vertices)
-					break;
 			}
-			
-			if(testGraph.doneVertex == v){
-
-				rGraph = testGraph; 
-				break;
-			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		return rGraph;
+		return rg;
 	}
+	
+	
+	
+//	public static RandomGraph applyEdge(RandomGraph rgReturn, int v) {
+//		try {
+//			while(true){
+//
+//				RandomGraph testGraph = new RandomGraph(v);
+//
+//				int count = 0, to, from;
+//				Random random = new Random();
+//				while (testGraph.doneVertex < v) {
+//					count++;
+//					from = Math.abs(random.nextInt(v)+1);
+//					to = Math.abs(random.nextInt(v)+1);
+//					if (!testGraph.getEdge(from).contains(to) && !testGraph.getEdge(to).contains(from) && to != from 
+//							&& testGraph.getEdge(to).size() < 7 && testGraph.getEdge(from).size() < 7) {
+//						testGraph.setEdge(to, from);
+//					}	
+//					if(count > 1800*testGraph.vertices) {
+//						System.out.println("Breaking Point");
+//						break;
+//					}
+//				}
+//				if(testGraph.doneVertex == v){
+//					rgReturn = testGraph;
+//					System.out.println("DoneVertex = " + testGraph.doneVertex); 
+//					break;
+//				}
+//			}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return rgReturn;
+//	}
 
 	
 	
 	public void applyEdgesNew(RandomGraph rg, int v) {
 		int count = 1, to, from;
 		int k;
-		while (count <= v) {
-			from = count;
-			k = count;
-			while (k <= v) {
-				to = k++;
-				double random2 = Math.random();
-				if (random2 <= 0.2 && to != from && !rg.getEdge(from).contains(to) &&!rg.getEdge(to).contains(from))
-					rg.setEdge(to, from);
+		try {
+			while (count <= v) {
+				from = count;
+				k = count;
+				while (k <= v) {
+					to = k++;
+					double random2 = Math.random();
+					if (random2 <= 0.2 && to != from && !rg.getEdge(from).contains(to) &&!rg.getEdge(to).contains(from)) {
+						rg.setEdge(to, from);
+					}
+				}
+				count++;
 			}
-			count++;
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-	/*public static void presentGraph(RandomGraph rg, int v) {
-		System.out.println("The Adjacency List Representation is:");
-		for (int i = 1; i <= v; i++) {
-			List<Integer> edgeList1 = rg.getEdge(i);
-			System.out.print(i + " -> ");
-			List<Map<Integer, Double>> edgeList2 = rg.getEdgeWeight(i);
-			if (edgeList2.size() == 0)
-				System.out.print("Null");
-			else {
-				for (int j = 1;; j++) {
-					if (j != edgeList2.size())
-						System.out.print("( "
-								+ edgeList1.get(j - 1)
-								+ " , "
-								+ edgeList2.get(j - 1).get(
-										edgeList1.get(j - 1)) + " ) -> ");
-					else {
-						System.out.print("( "
-								+ edgeList1.get(j - 1)
-								+ " , "
-								+ edgeList2.get(j - 1).get(
-										edgeList1.get(j - 1)) + " )");
-						break;
-					}
-				}
-			}
-			System.out.println();
-		}
-	}*/
 
 	public int[][] pickSourceSink(int sourcesink[][], int v){
 		//randomly generate 5 pairs of sources and sinks
@@ -191,4 +206,34 @@ public class RandomGraph {
 		}
 		return sourcesink;
 	}
+	
+	/*public static void presentGraph(RandomGraph rg, int v) {
+	System.out.println("The Adjacency List Representation is:");
+	for (int i = 1; i <= v; i++) {
+		List<Integer> edgeList1 = rg.getEdge(i);
+		System.out.print(i + " -> ");
+		List<Map<Integer, Double>> edgeList2 = rg.getEdgeWeight(i);
+		if (edgeList2.size() == 0)
+			System.out.print("Null");
+		else {
+			for (int j = 1;; j++) {
+				if (j != edgeList2.size())
+					System.out.print("( "
+							+ edgeList1.get(j - 1)
+							+ " , "
+							+ edgeList2.get(j - 1).get(
+									edgeList1.get(j - 1)) + " ) -> ");
+				else {
+					System.out.print("( "
+							+ edgeList1.get(j - 1)
+							+ " , "
+							+ edgeList2.get(j - 1).get(
+									edgeList1.get(j - 1)) + " )");
+					break;
+				}
+			}
+		}
+		System.out.println();
+	}
+}*/
 }
