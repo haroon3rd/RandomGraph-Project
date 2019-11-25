@@ -5,8 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GraphMain {
+import org.apache.log4j.Logger;
 
+public class GraphMain {
+	public static final Logger logger = Logger.getLogger(GraphMain.class);
 
 	public static void main(String args[]) {
 		System.out.print("Enter the number of vertices: ");

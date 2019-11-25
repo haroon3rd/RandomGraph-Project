@@ -4,8 +4,10 @@ package ranGraph;
 import java.util.List;
 import java.util.Map;
 
-public class DijkstraHeap {
+import org.apache.log4j.Logger;
 
+public class DijkstraHeap {
+	public static final Logger logger = Logger.getLogger(DijkstraHeap.class);
 
 	public char status[];
 	public int dad[];

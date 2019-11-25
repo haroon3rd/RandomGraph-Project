@@ -1,8 +1,9 @@
 package ranGraph;
 
-
+import org.apache.log4j.Logger;
 
 public class HeapStruct {
+	public static final Logger logger = Logger.getLogger(HeapStruct.class);
 
 	private int n;
 	public int size;

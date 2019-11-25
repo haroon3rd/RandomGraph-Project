@@ -3,9 +3,13 @@ package ranGraph;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
 import java.util.HashMap;
 
 public class KruskalAlg {
+	public static final Logger logger = Logger.getLogger(KruskalAlg.class);
 
 	public int edgenumber;
 	public int vertexnumber;

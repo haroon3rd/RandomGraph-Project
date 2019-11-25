@@ -2,10 +2,11 @@ package ranGraph;
 
 import java.util.*;
 
+import org.apache.log4j.Logger;
+
 public class DijkstraAlg {
+	public static final Logger logger = Logger.getLogger(DijkstraAlg.class);
 
-
-	
 	public Character status[];
 	public int dad[];
 	public double bw[];

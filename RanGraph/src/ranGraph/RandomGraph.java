@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 public class RandomGraph {
-	private int vertices;
+	public static final Logger logger = Logger.getLogger(RandomGraph.class);
 	
-	//TestKruskal
+	private int vertices;
 	public int totalEdges = 0;
 	public int doneVertex = 0;
 	
@@ -97,36 +99,37 @@ public class RandomGraph {
 
 	public RandomGraph applyEdge(RandomGraph rg, int v) {
 
-		RandomGraph rgReturn = new RandomGraph(v);
+		RandomGraph rGraph = new RandomGraph(v);
 
 		while(true){
-
-			RandomGraph rgTest = new RandomGraph(v);
+			RandomGraph testGraph = new RandomGraph(v);
 
 			int count = 0, to, from;
 			Random random = new Random();
-			while (rgTest.doneVertex < v) {
+			while (testGraph.doneVertex < v) {
 				count++;
 				from = Math.abs(random.nextInt(v)+1);
 				to = Math.abs(random.nextInt(v)+1);
-				if (!rgTest.getEdge(from).contains(to) && !rgTest.getEdge(to).contains(from) && to != from 
-						&& rgTest.getEdge(to).size() < 6 && rgTest.getEdge(from).size() < 6) {
-					rgTest.setEdge(to, from);
+				if (!testGraph.getEdge(from).contains(to) && !testGraph.getEdge(to).contains(from) && to != from 
+						&& testGraph.getEdge(to).size() < 6 && testGraph.getEdge(from).size() < 6) {
+					testGraph.setEdge(to, from);
 				}	
-				if(count > 1800*rgTest.vertices)
+				if(count > 1800*testGraph.vertices)
 					break;
 			}
-			if(rgTest.doneVertex == v){
+			
+			if(testGraph.doneVertex == v){
 
-				rgReturn = rgTest;
-				//System.out.println("count = "+ count); 
+				rGraph = testGraph; 
 				break;
 			}
 		}
 
-		return rgReturn;
+		return rGraph;
 	}
 
+	
+	
 	public void applyEdgesNew(RandomGraph rg, int v) {
 		int count = 1, to, from;
 		int k;
