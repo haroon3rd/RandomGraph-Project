@@ -14,7 +14,7 @@ public class RandomGraph {
 	public static final Logger logger = Logger.getLogger(RandomGraph.class);
 
 	public int totalEdges = 0;
-	public int doneVertex = 0;
+	//public int doneVertex = 0;
 
 	private Map<Integer, List<Integer>> adjacencyList;
 	private Map<Integer, List<Map<Integer, Integer>>> edgeWeight;
@@ -66,11 +66,11 @@ public class RandomGraph {
 		List<Map<Integer, Integer>> weightlist2 = edgeWeight.get(from);
 		weightlist2.add(destListweight);
 
-		if (this.getEdge(to).size() == 6)
-			this.doneVertex++;
-
-		if(this.getEdge(from).size() == 6)
-			this.doneVertex++;
+//		if (this.getEdge(to).size() == 6)
+//			this.doneVertex++;
+//
+//		if(this.getEdge(from).size() == 6)
+//			this.doneVertex++;
 
 		Edge edgeobject = new Edge();
 		edgeobject.edge1 = to;
@@ -139,16 +139,16 @@ public class RandomGraph {
 	//This will be called for second graph
 	public void applyEdges(RandomGraph ranGraph, int v) {
 		int count = 1, to, from;
-		int k;
 		try {
 			while (count <= v) {
 				from = count;
-				k = count;
+				int k = count;
 				int toCount = 1;
 				while (k <= v) {
 					to = k++;
 					double random2 = Math.random();
-					if (random2 <= 0.2 && to != from && !ranGraph.getEdge(from).contains(to) &&!ranGraph.getEdge(to).contains(from)) {
+					if (random2 <= 0.2 && to != from && !ranGraph.getEdge(from).contains(to)
+							&&!ranGraph.getEdge(to).contains(from)) {
 						ranGraph.setEdge(to, from);
 						toCount++;
 						if(toCount>0.2*v)

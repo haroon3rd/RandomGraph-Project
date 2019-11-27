@@ -184,7 +184,7 @@ public class GraphMain {
 				int s = sourcesink[i][0];
 				int t = sourcesink[i][1];
 				System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
-				ProjectUtil projectutil = new ProjectUtil();
+				GraphUtils projectutil = new GraphUtils();
 				RandomGraph rgTemp = projectutil.addPath(rgList.get(i), s, t, vert);
 				rgList.set(i, rgTemp);
 			}
@@ -225,7 +225,7 @@ public class GraphMain {
 			int s = sourcesink2[i][0];
 			int t = sourcesink2[i][1];
 			System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
-			ProjectUtil projectutil2 = new ProjectUtil();
+			GraphUtils projectutil2 = new GraphUtils();
 			RandomGraph rgTemp2 = projectutil2.addPath(rgList2.get(i), s, t, vert);
 			rgList2.set(i, rgTemp2);
 		}

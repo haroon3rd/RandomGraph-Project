@@ -130,7 +130,7 @@ public class MainFunction {
 					}
 					j = kruskalDad[i][j];
 				}
-				System.out.println("\nPath-BandWidth = "+bandWidth);
+				System.out.println("\nPath-BandWidth = "+(int)bandWidth);
 			}
 		} catch (Exception e) {
 			logger.error("Error in runKruskal for Loop 2" + e);
@@ -182,7 +182,7 @@ public class MainFunction {
 				int s = sourcesink[i][0];
 				int t = sourcesink[i][1];
 				System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
-				ProjectUtil projectutil = new ProjectUtil();
+				GraphUtils projectutil = new GraphUtils();
 				RandomGraph rgTemp = projectutil.addPath(rgList.get(i), s, t, vert);
 				rgList.set(i, rgTemp);
 			}
@@ -223,7 +223,7 @@ public class MainFunction {
 			int s = sourcesink2[i][0];
 			int t = sourcesink2[i][1];
 			System.out.println("[Src : Dest] for run " + (i+1) + " = " + s +" --> "+t);
-			ProjectUtil projectutil2 = new ProjectUtil();
+			GraphUtils projectutil2 = new GraphUtils();
 			RandomGraph rgTemp2 = projectutil2.addPath(rgList2.get(i), s, t, vert);
 			rgList2.set(i, rgTemp2);
 		}

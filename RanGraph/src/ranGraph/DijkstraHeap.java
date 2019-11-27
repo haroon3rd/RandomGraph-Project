@@ -39,7 +39,6 @@ public class DijkstraHeap {
 	
 
 	
-//	public void relax(int v, int i, List<Integer> list1, List<Map<Integer, Double>> list2){
 	public void relax(int v, int i, List<Integer> list1, List<Map<Integer, Integer>> list2){
 		int w = list1.get(i); 
 		double weight_on_w = list2.get(i).get(w);

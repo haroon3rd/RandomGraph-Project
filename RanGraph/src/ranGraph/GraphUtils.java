@@ -2,8 +2,8 @@ package ranGraph;
 
 import org.apache.log4j.Logger;
 
-public class ProjectUtil {
-	public static final Logger logger = Logger.getLogger(ProjectUtil.class);
+public class GraphUtils {
+	public static final Logger logger = Logger.getLogger(GraphUtils.class);
 
 	public RandomGraph addPath(RandomGraph ranGraph, int s, int t, int v){
 		int src = s;
