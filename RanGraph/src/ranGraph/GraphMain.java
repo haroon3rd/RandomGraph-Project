@@ -20,7 +20,7 @@ public class GraphMain {
 		}
 	}
 
-	public static final Logger logger = Logger.getLogger(MainFunction.class);
+	public static final Logger logger = Logger.getLogger(GraphMain.class);
 
 	
 	//Method for Dijsktra algorithm call
@@ -79,8 +79,6 @@ public class GraphMain {
 				dadDijHeap[i] = dijHeapList.get(i).dijkstraHeapRout(rgList.get(i), sourcesink[i][0], sourcesink[i][1], vert);
 				long stopTime = System.nanoTime();
 
-				//if(i == 0)	System.out.println("\n");
-
 				System.out.println("Run #"+(i+1)+ " in time "
 						+TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) +" milliseconds");
 
@@ -123,7 +121,7 @@ public class GraphMain {
 						+ TimeUnit.MILLISECONDS.convert((stopTime-startTime),TimeUnit.NANOSECONDS) + " milliseconds.");
 
 				int j = sourcesink[i][1];
-				double bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
+				int bandWidth = rgList.get(i).wtMatrix[j][kruskalDad[i][j]];
 				System.out.print("Path = " + j);
 				while(j != sourcesink[i][0]){
 					System.out.print("-->" + kruskalDad[i][j]);
@@ -132,7 +130,7 @@ public class GraphMain {
 					}
 					j = kruskalDad[i][j];
 				}
-				System.out.println("\nPath-BandWidth = "+bandWidth);
+				System.out.println("\nPath-BandWidth = "+(int)bandWidth);
 			}
 		} catch (Exception e) {
 			logger.error("Error in runKruskal for Loop 2" + e);
@@ -247,7 +245,7 @@ public class GraphMain {
 
 		long algorithmEndTime = System.nanoTime();
 		
-		System.out.println("\n\nEnd of Program in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 30 successfull runs.");
+		System.out.println("\n\nEnd of algorithm runs in time " + TimeUnit.SECONDS.convert((algorithmEndTime-algorithmStartTime),TimeUnit.NANOSECONDS) +" seconds with 30 successfull runs.");
 	}
 
 }

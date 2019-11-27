@@ -105,7 +105,7 @@ public class RandomGraph {
 		return edgeWeight.get(to);
 	}
 
-	//This will be called for Graph 1
+	//This will be called for first Graph
 	public void applyEdges(RandomGraph ranGraph, int v, int edgePerV) {
 		logger.info("I am here.....");
 		int count = 1, to, from;
